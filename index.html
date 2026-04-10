@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Norte Acabamentos | Materiais de Construção Premium</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#111827',
+                        accent: '#F27D26', // Brand Orange
+                        ice: '#F4F7F9',    // Branco Gelo
+                        surface: '#FFFFFF',
+                        muted: '#6B7280',
+                        border: '#E5E7EB'
+                    },
+                    fontFamily: {
+                        display: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;700&display=swap');
+
+        body {
+            background-color: #F4F7F9;
+            color: #111827;
+            overflow-x: hidden;
+        }
+
+        .glass {
+            background: rgba(244, 247, 249, 0.8); /* Ice White Glass */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, #111827, #F27D26);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .marquee-content {
+            display: flex;
+            animation: marquee 40s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .bento-item {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #F4F7F9;
+            border: 1px solid #F3F4F6;
+        }
+
+        .bento-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+            border-color: #F27D26;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom underline */
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #F27D26;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <!-- MOBILE MENU -->
+    <div id="mobile-menu" class="fixed inset-0 bg-ice z-[60] flex flex-col items-center justify-center gap-12 transform translate-x-full transition-transform duration-500 lg:hidden">
+        <button id="close-menu" class="absolute top-10 right-10 text-dark">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <nav class="flex flex-col items-center gap-8 text-2xl font-display font-bold text-dark">
+            <a href="#inicio" class="mobile-nav-link">Início</a>
+            <a href="#produtos" class="mobile-nav-link">Produtos</a>
+            <a href="#sobre" class="mobile-nav-link">Sobre</a>
+            <a href="#contato" class="mobile-nav-link">Contato</a>
+        </nav>
+        <a href="https://wa.me/5531997016161" target="_blank" class="bg-accent text-white px-12 py-4 rounded-full font-bold uppercase tracking-widest text-xs">
+            WhatsApp
+        </a>
+    </div>
+
+    <!-- HEADER -->
+    <header class="fixed top-0 left-0 w-full z-50 transition-all duration-500 py-6" id="main-header">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="https://lh3.googleusercontent.com/d/1zq_9UdDLK9r85k4Pueh8bwiC0bXVSodI" alt="Norte Acabamentos Logo" class="h-12 w-auto" referrerPolicy="no-referrer">
+                <div class="flex flex-col">
+                    <span class="font-display text-xl font-bold tracking-tight leading-none text-dark uppercase">Norte</span>
+                    <span class="text-[10px] uppercase tracking-[0.3em] text-accent font-bold">Acabamentos</span>
+                </div>
+            </div>
+            
+            <nav class="hidden lg:flex gap-10 text-[11px] font-bold uppercase tracking-[0.2em] text-dark/60">
+                <a href="#inicio" class="nav-link hover:text-dark transition-colors">Início</a>
+                <a href="#produtos" class="nav-link hover:text-dark transition-colors">Produtos</a>
+                <a href="#sobre" class="nav-link hover:text-dark transition-colors">Sobre</a>
+                <a href="#contato" class="nav-link hover:text-dark transition-colors">Contato</a>
+            </nav>
+
+            <div class="flex items-center gap-6">
+                <a href="https://wa.me/5531997016161" target="_blank" class="hidden sm:block bg-dark text-white px-8 py-3 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-accent transition-all duration-300 shadow-xl shadow-dark/10">
+                    Fale Conosco
+                </a>
+                <button id="menu-toggle" class="lg:hidden text-dark">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="inicio" class="relative h-screen flex items-center justify-center overflow-hidden bg-ice">
+        <!-- Background Image with Transparency -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://lh3.googleusercontent.com/d/1w7lqcsJcZDgmjRfWwYyTv_ANEIhgx24P" class="w-full h-full object-cover opacity-40" alt="Showroom Norte Acabamentos">
+        </div>
+
+        <!-- Subtle Grid Pattern -->
+        <div class="absolute inset-0 opacity-[0.03] z-[1]" style="background-image: radial-gradient(#111827 1px, transparent 1px); background-size: 40px 40px;"></div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="max-w-5xl mx-auto text-center">
+                <span class="inline-block px-4 py-1 border border-accent/20 rounded-full text-[10px] uppercase tracking-[0.3em] text-accent font-bold mb-8 opacity-0" id="hero-label">Exclusividade em Pedro Leopoldo</span>
+                <h1 class="font-display text-6xl md:text-[120px] leading-[0.85] tracking-tighter mb-10 opacity-0 text-dark" id="hero-title">
+                    Onde sua <span class="italic text-accent">casa</span> <br> ganha vida.
+                </h1>
+                <p class="max-w-2xl mx-auto text-lg md:text-xl text-[#1b1b1d] mb-12 opacity-0 font-bold italic border border-[#212325] p-4 rounded-lg" id="hero-sub">
+                    Curadoria exclusiva de acabamentos, pisos e metais para transformar seu projeto em uma obra de arte.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-6 justify-center opacity-0" id="hero-cta">
+                    <a href="#produtos" class="bg-accent text-white px-12 py-5 rounded-full font-bold uppercase tracking-[0.2em] text-[11px] hover:scale-105 transition-transform duration-300 shadow-2xl shadow-accent/30">
+                        Explorar Catálogo
+                    </a>
+                    <a href="#sobre" class="border border-dark/10 px-12 py-5 rounded-full font-bold uppercase tracking-[0.2em] text-[11px] hover:bg-dark hover:text-white transition-all duration-300">
+                        Nossa História
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating Images (Decorative) -->
+        <div class="absolute -left-20 top-1/4 w-64 h-80 rounded-3xl overflow-hidden shadow-2xl rotate-6 opacity-20 hidden xl:block">
+            <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover">
+        </div>
+        <div class="absolute -right-20 bottom-1/4 w-64 h-80 rounded-3xl overflow-hidden shadow-2xl -rotate-6 opacity-20 hidden xl:block">
+            <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover">
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-30">
+            <span class="text-[9px] uppercase tracking-[0.4em] vertical-text">Scroll</span>
+            <div class="w-[1px] h-12 bg-dark"></div>
+        </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <section class="py-12 border-y border-dark/5 overflow-hidden bg-ice">
+        <div class="marquee-content whitespace-nowrap flex gap-24 items-center">
+            <span class="text-3xl font-display italic text-dark/20">Porcelanatos Premium</span>
+            <span class="w-2 h-2 bg-accent rounded-full"></span>
+            <span class="text-3xl font-display italic text-dark/20">Metais de Luxo</span>
+            <span class="w-2 h-2 bg-accent rounded-full"></span>
+            <span class="text-3xl font-display italic text-dark/20">Cozinhas Gourmet</span>
+            <span class="w-2 h-2 bg-accent rounded-full"></span>
+            <span class="text-3xl font-display italic text-dark/20">Banheiros Exclusivos</span>
+            <span class="w-2 h-2 bg-accent rounded-full"></span>
+            <!-- Repeat -->
+            <span class="text-3xl font-display italic text-dark/20">Porcelanatos Premium</span>
+            <span class="w-2 h-2 bg-accent rounded-full"></span>
+            <span class="text-3xl font-display italic text-dark/20">Metais de Luxo</span>
+            <span class="w-2 h-2 bg-accent rounded-full"></span>
+            <span class="text-3xl font-display italic text-dark/20">Cozinhas Gourmet</span>
+            <span class="w-2 h-2 bg-accent rounded-full"></span>
+            <span class="text-3xl font-display italic text-dark/20">Banheiros Exclusivos</span>
+            <span class="w-2 h-2 bg-accent rounded-full"></span>
+        </div>
+    </section>
+
+    <!-- BENTO GRID (CATEGORIES) -->
+    <section id="produtos" class="py-40 bg-ice relative overflow-hidden">
+        <!-- Background Image -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://lh3.googleusercontent.com/d/1fHfohsJvofWYb6zdqoxTnqgrPPxccu88" alt="Background" class="w-full h-full object-cover opacity-20" referrerPolicy="no-referrer">
+        </div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
+                <div class="max-w-2xl">
+                    <span class="text-accent font-bold uppercase tracking-[0.3em] text-[10px] mb-4 block reveal">Coleções Exclusivas</span>
+                    <h2 class="font-display text-5xl md:text-8xl tracking-tighter reveal text-dark">DESIGN QUE <br> <span class="italic text-accent">INSPIRA</span></h2>
+                </div>
+                <p class="text-[#0e0d0d] max-w-xs text-sm font-bold italic reveal">
+                    Curadoria premium de acabamentos para transformar cada ambiente em um espaço de luxo e conforto.
+                </p>
+            </div>
+
+            <!-- Bento grid removed as requested -->
+        </div>
+    </section>
+
+    <!-- PRODUCT SHOWCASE -->
+    <section class="py-40 bg-ice overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-32 reveal">
+                <span class="text-accent font-bold uppercase tracking-[0.3em] text-[10px] mb-4 block">Portfólio de Produtos</span>
+                <h2 class="font-display text-5xl md:text-7xl tracking-tighter text-dark">DETALHES QUE <span class="italic text-accent">DEFINEM</span></h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <!-- Item 1 -->
+                <div class="reveal group">
+                    <div class="aspect-[4/5] rounded-3xl overflow-hidden mb-8 relative border border-dark/5 group-hover:border-accent/30 transition-colors duration-500">
+                        <img src="https://lh3.googleusercontent.com/d/1naXdLdmevZj-sn3dh3NNtKTbQm3x4l_4" alt="Produto Premium" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" referrerPolicy="no-referrer">
+                        <div class="absolute top-6 right-6 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-dark border border-accent/10">Premium</div>
+                    </div>
+                    <h4 class="font-display text-2xl mb-2 text-dark">Coleção Exclusiva</h4>
+                    <p class="text-muted text-sm font-light">Design atemporal para ambientes sofisticados.</p>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="reveal group" style="transition-delay: 100ms;">
+                    <div class="aspect-[4/5] rounded-3xl overflow-hidden mb-8 relative border border-dark/5 group-hover:border-accent/30 transition-colors duration-500">
+                        <img src="https://lh3.googleusercontent.com/d/1bS3eyW7GnY-AqZMBhnAQ9Ic8L9Ad9YlY" alt="Produto Premium" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" referrerPolicy="no-referrer">
+                        <div class="absolute top-6 right-6 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-dark border border-accent/10">Luxo</div>
+                    </div>
+                    <h4 class="font-display text-2xl mb-2 text-dark">Acabamento Nobre</h4>
+                    <p class="text-muted text-sm font-light">A perfeição em cada detalhe do seu projeto.</p>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="reveal group" style="transition-delay: 200ms;">
+                    <div class="aspect-[4/5] rounded-3xl overflow-hidden mb-8 relative border border-dark/5 group-hover:border-accent/30 transition-colors duration-500">
+                        <img src="https://lh3.googleusercontent.com/d/1rPLfjDEZsDmtKMZAkzIN7Sb95WYSpC0Y" alt="Produto Premium" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" referrerPolicy="no-referrer">
+                        <div class="absolute top-6 right-6 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-dark border border-accent/10">Design</div>
+                    </div>
+                    <h4 class="font-display text-2xl mb-2 text-dark">Estilo Contemporâneo</h4>
+                    <p class="text-muted text-sm font-light">Tendências mundiais ao seu alcance.</p>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="reveal group" style="transition-delay: 300ms;">
+                    <div class="aspect-[4/5] rounded-3xl overflow-hidden mb-8 relative border border-dark/5 group-hover:border-accent/30 transition-colors duration-500">
+                        <img src="https://lh3.googleusercontent.com/d/1-jOHAZUzTeG_6-tFuzNKbodZYRs2QHpE" alt="Produto Premium" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" referrerPolicy="no-referrer">
+                        <div class="absolute top-6 right-6 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-dark border border-accent/10">Premium</div>
+                    </div>
+                    <h4 class="font-display text-2xl mb-2 text-dark">Elegância Pura</h4>
+                    <p class="text-muted text-sm font-light">Transformando espaços com sofisticação.</p>
+                </div>
+
+                <!-- Item 5 -->
+                <div class="reveal group" style="transition-delay: 400ms;">
+                    <div class="aspect-[4/5] rounded-3xl overflow-hidden mb-8 relative border border-dark/5 group-hover:border-accent/30 transition-colors duration-500">
+                        <img src="https://lh3.googleusercontent.com/d/1aR8VZ0Glj1BFZ3-dpWrcp-S4kYcT5Kl7" alt="Produto Premium" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" referrerPolicy="no-referrer">
+                        <div class="absolute top-6 right-6 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-dark border border-accent/10">Inovação</div>
+                    </div>
+                    <h4 class="font-display text-2xl mb-2 text-dark">Materiais Nobres</h4>
+                    <p class="text-muted text-sm font-light">Qualidade superior para clientes exigentes.</p>
+                </div>
+
+                <!-- Item 6 -->
+                <div class="reveal group" style="transition-delay: 500ms;">
+                    <div class="aspect-[4/5] rounded-3xl overflow-hidden mb-8 relative border border-dark/5 group-hover:border-accent/30 transition-colors duration-500">
+                        <img src="https://lh3.googleusercontent.com/d/1HtGfW-1UxPDXZpa7wj3ItL-eHsdLlzDj" alt="Produto Premium" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" referrerPolicy="no-referrer">
+                        <div class="absolute top-6 right-6 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-dark border border-accent/10">Exclusivo</div>
+                    </div>
+                    <h4 class="font-display text-2xl mb-2 text-dark">Curadoria Norte</h4>
+                    <p class="text-muted text-sm font-light">O melhor do design para sua obra.</p>
+                </div>
+
+                <!-- Item 7 -->
+                <div class="reveal group" style="transition-delay: 100ms;">
+                    <div class="aspect-[4/5] rounded-3xl overflow-hidden mb-8 relative border border-dark/5 group-hover:border-accent/30 transition-colors duration-500">
+                        <img src="https://lh3.googleusercontent.com/d/16lubM4jo0DxTGJOPHadbwVt5OLGoEadL" alt="Produto Premium" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" referrerPolicy="no-referrer">
+                        <div class="absolute top-6 right-6 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-dark border border-accent/10">Premium</div>
+                    </div>
+                    <h4 class="font-display text-2xl mb-2 text-dark">Texturas & Cores</h4>
+                    <p class="text-muted text-sm font-light">Harmonia cromática para seu projeto.</p>
+                </div>
+
+                <!-- Item 8 -->
+                <div class="reveal group" style="transition-delay: 200ms;">
+                    <div class="aspect-[4/5] rounded-3xl overflow-hidden mb-8 relative border border-dark/5 group-hover:border-accent/30 transition-colors duration-500">
+                        <img src="https://lh3.googleusercontent.com/d/1gUPg6DlcyiHDNvxtscLFw15APkatKZaa" alt="Produto Premium" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" referrerPolicy="no-referrer">
+                        <div class="absolute top-6 right-6 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-dark border border-accent/10">Luxo</div>
+                    </div>
+                    <h4 class="font-display text-2xl mb-2 text-dark">Arquitetura de Luxo</h4>
+                    <p class="text-muted text-sm font-light">Soluções estéticas de alto padrão.</p>
+                </div>
+
+                <!-- Item 9 -->
+                <div class="reveal group" style="transition-delay: 300ms;">
+                    <div class="aspect-[4/5] rounded-3xl overflow-hidden mb-8 relative border border-dark/5 group-hover:border-accent/30 transition-colors duration-500">
+                        <img src="https://lh3.googleusercontent.com/d/1BOybKGo4SD5QXJvPkvkK3AbeD8ACm5AL" alt="Produto Premium" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" referrerPolicy="no-referrer">
+                        <div class="absolute top-6 right-6 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-dark border border-accent/10">Design</div>
+                    </div>
+                    <h4 class="font-display text-2xl mb-2 text-dark">Metais de Grife</h4>
+                    <p class="text-muted text-sm font-light">Funcionalidade aliada à beleza extrema.</p>
+                </div>
+
+                <!-- Item 10 -->
+                <div class="reveal group" style="transition-delay: 100ms;">
+                    <div class="aspect-[4/5] rounded-3xl overflow-hidden mb-8 relative border border-dark/5 group-hover:border-accent/30 transition-colors duration-500">
+                        <img src="https://lh3.googleusercontent.com/d/1hbet5lcnmM5KZNVKpHuFFuwWYDc984lR" alt="Produto Premium" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" referrerPolicy="no-referrer">
+                        <div class="absolute top-6 right-6 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-dark border border-accent/10">Premium</div>
+                    </div>
+                    <h4 class="font-display text-2xl mb-2 text-dark">Porcelanatos de Elite</h4>
+                    <p class="text-muted text-sm font-light">Resistência e estética em grandes formatos.</p>
+                </div>
+
+                <!-- Item 11 -->
+                <div class="reveal group" style="transition-delay: 200ms;">
+                    <div class="aspect-[4/5] rounded-3xl overflow-hidden mb-8 relative border border-dark/5 group-hover:border-accent/30 transition-colors duration-500">
+                        <img src="https://lh3.googleusercontent.com/d/1gWz99u2bbpFH6fuMg2qF2GsN8od-dCjx" alt="Produto Premium" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" referrerPolicy="no-referrer">
+                        <div class="absolute top-6 right-6 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-dark border border-accent/10">Cores</div>
+                    </div>
+                    <h4 class="font-display text-2xl mb-2 text-dark">Paleta Exclusiva</h4>
+                    <p class="text-muted text-sm font-light">Cores que transformam a percepção do espaço.</p>
+                </div>
+
+                <!-- Item 12 -->
+                <div class="reveal group" style="transition-delay: 300ms;">
+                    <div class="aspect-[4/5] rounded-3xl overflow-hidden mb-8 relative border border-dark/5 group-hover:border-accent/30 transition-colors duration-500">
+                        <img src="https://lh3.googleusercontent.com/d/10gno55wp-CDuxzI5aB3lGT4Dcznn12Nz" alt="Produto Premium" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" referrerPolicy="no-referrer">
+                        <div class="absolute top-6 right-6 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-dark border border-accent/10">Design</div>
+                    </div>
+                    <h4 class="font-display text-2xl mb-2 text-dark">Minimalismo Chic</h4>
+                    <p class="text-muted text-sm font-light">Menos é mais quando a qualidade é absoluta.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SHOWROOM / SOBRE -->
+    <section id="sobre" class="py-40 bg-ice">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
+                <div class="relative reveal">
+                    <div class="aspect-square rounded-[60px] overflow-hidden shadow-2xl">
+                        <img src="https://lh3.googleusercontent.com/d/17M50l4PxVRj75Gyk4z1eqvmckAqBkmVP" alt="Showroom Norte Acabamentos" class="w-full h-full object-cover" referrerPolicy="no-referrer">
+                    </div>
+                    <div class="absolute -bottom-16 -right-16 w-64 h-64 bg-accent rounded-[40px] p-10 flex flex-col justify-center text-white shadow-2xl hidden md:flex">
+                        <span class="text-5xl font-display font-bold mb-2">15+</span>
+                        <p class="text-[10px] uppercase tracking-[0.3em] font-bold">Anos de Tradição em Pedro Leopoldo</p>
+                    </div>
+                </div>
+                <div class="reveal">
+                    <span class="text-accent font-bold uppercase tracking-[0.3em] text-[10px] mb-6 block">Nossa História</span>
+                    <h2 class="font-display text-5xl md:text-7xl tracking-tighter mb-10 text-dark">EXCELÊNCIA EM <br> <span class="italic text-accent">CADA OBRA</span></h2>
+                    <p class="text-muted text-lg mb-10 font-light leading-relaxed">
+                        A Norte Acabamentos é referência em Pedro Leopoldo por oferecer uma experiência de compra diferenciada. Com mais de 15 anos de história, nosso showroom foi projetado para que você visualize cada detalhe do seu futuro lar, com o atendimento que você merece.
+                    </p>
+                    <div class="space-y-6 mb-12">
+                        <div class="flex items-start gap-4">
+                            <div class="w-6 h-6 rounded-full bg-accent/10 flex items-center justify-center text-accent mt-1">✓</div>
+                            <div>
+                                <h4 class="font-bold text-dark text-sm uppercase tracking-widest mb-1">Consultoria Técnica</h4>
+                                <p class="text-muted text-sm font-light">Especialistas prontos para ajudar na especificação do material correto.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-6 h-6 rounded-full bg-accent/10 flex items-center justify-center text-accent mt-1">✓</div>
+                            <div>
+                                <h4 class="font-bold text-dark text-sm uppercase tracking-widest mb-1">Entrega Agilizada</h4>
+                                <p class="text-muted text-sm font-light">Logística própria para garantir que sua obra não pare.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="https://wa.me/5531997016161" target="_blank" class="inline-block border-b-2 border-accent pb-2 text-dark font-bold uppercase tracking-widest text-xs hover:text-accent transition-colors">
+                        Agende uma visita ao showroom
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contato-direto" class="py-40 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto bg-ice rounded-[60px] p-12 md:p-24 shadow-2xl reveal">
+                <div class="text-center mb-16">
+                    <span class="text-accent font-bold uppercase tracking-[0.3em] text-[10px] mb-4 block">Fale Conosco</span>
+                    <h2 class="font-display text-4xl md:text-6xl tracking-tighter text-dark">PRONTO PARA <br> <span class="italic text-accent">COMEÇAR?</span></h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div class="space-y-8">
+                        <div>
+                            <h4 class="font-bold text-dark text-[10px] uppercase tracking-widest mb-2">Endereço</h4>
+                            <p class="text-muted font-light mb-2">Av. Araguaia, 181 - Parque Andiara<br>Pedro Leopoldo - MG</p>
+                            <a href="https://maps.app.goo.gl/bZ8ka8wWCb7oiWoN9" target="_blank" class="text-accent text-[10px] font-bold uppercase tracking-widest hover:underline flex items-center gap-2">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                Ver no Google Maps
+                            </a>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-dark text-[10px] uppercase tracking-widest mb-2">Telefone</h4>
+                            <p class="text-muted font-light">(31) 3965-0809</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-dark text-[10px] uppercase tracking-widest mb-2">WhatsApp</h4>
+                            <p class="text-muted font-light">(31) 99701-6161</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col justify-center">
+                        <p class="text-muted font-light mb-8">Prefere um atendimento personalizado? Nossa equipe de especialistas está pronta para transformar seu projeto em realidade.</p>
+                        <a href="https://wa.me/5531997016161" target="_blank" class="bg-dark text-white text-center py-5 rounded-full font-bold uppercase tracking-widest text-[10px] hover:bg-accent transition-colors duration-300">
+                            Iniciar Conversa no WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="contato" class="pt-40 pb-20 bg-ice border-t border-dark/5">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-16 mb-40">
+                <div class="md:col-span-5">
+                    <div class="flex items-center gap-3 mb-10">
+                        <img src="https://lh3.googleusercontent.com/d/1zq_9UdDLK9r85k4Pueh8bwiC0bXVSodI" alt="Norte Acabamentos Logo" class="h-14 w-auto" referrerPolicy="no-referrer">
+                        <div class="flex flex-col">
+                            <span class="font-display text-2xl font-bold tracking-tight leading-none text-dark uppercase">Norte</span>
+                            <span class="text-[12px] uppercase tracking-[0.3em] text-accent font-bold">Acabamentos</span>
+                        </div>
+                    </div>
+                    <p class="text-muted text-lg font-light max-w-sm mb-12">
+                        Transformando sonhos em realidade através de acabamentos de alto padrão.
+                    </p>
+                    <div class="flex gap-6">
+                        <a href="https://www.instagram.com/depositonorte_" target="_blank" class="text-dark hover:text-accent transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        </a>
+                        <a href="https://wa.me/5531997016161" target="_blank" class="text-dark hover:text-accent transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.438 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.301-.15-1.779-.877-2.053-.976-.275-.099-.476-.15-.675.15-.199.299-.772.976-.946 1.175-.173.199-.347.224-.648.075-.3-.15-1.266-.467-2.411-1.485-.892-.795-1.493-1.777-1.668-2.076-.174-.299-.019-.461.13-.61.135-.133.301-.349.451-.524.149-.174.199-.299.299-.498.1-.199.05-.374-.025-.524-.075-.15-.675-1.625-.925-2.224-.244-.589-.491-.51-.675-.518-.174-.007-.374-.007-.574-.007-.2 0-.524.075-.798.374-.274.299-1.047 1.022-1.047 2.492 0 1.47 1.071 2.891 1.221 3.09.15.199 2.107 3.217 5.104 4.512.713.308 1.269.492 1.703.631.716.227 1.368.195 1.883.117.574-.088 1.779-.726 2.028-1.426.25-.7.25-1.296.174-1.425-.075-.13-.274-.204-.574-.354z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="md:col-span-2">
+                    <h4 class="font-bold uppercase tracking-[0.2em] text-[10px] mb-8 text-accent">Navegação</h4>
+                    <ul class="space-y-4 text-sm font-light text-muted">
+                        <li><a href="#inicio" class="hover:text-dark transition-colors">Início</a></li>
+                        <li><a href="#produtos" class="hover:text-dark transition-colors">Produtos</a></li>
+                        <li><a href="#sobre" class="hover:text-dark transition-colors">Sobre</a></li>
+                        <li><a href="#contato" class="hover:text-dark transition-colors">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="md:col-span-2">
+                    <h4 class="font-bold uppercase tracking-[0.2em] text-[10px] mb-8 text-accent">Categorias</h4>
+                    <ul class="space-y-4 text-sm font-light text-muted">
+                        <li>Pisos & Revestimentos</li>
+                        <li>Metais & Louças</li>
+                        <li>Cozinhas & Gourmet</li>
+                        <li>Iluminação</li>
+                        <li>Tintas</li>
+                    </ul>
+                </div>
+                <div class="md:col-span-3">
+                    <h4 class="font-bold uppercase tracking-[0.2em] text-[10px] mb-8 text-accent">Contato</h4>
+                    <p class="text-sm font-light text-muted mb-4">
+                        Av. Araguaia, 181 - Parque Andiara<br>
+                        Pedro Leopoldo - MG
+                    </p>
+                    <p class="text-sm font-bold text-dark">
+                        (31) 3965-0809
+                    </p>
+                </div>
+            </div>
+            <div class="pt-10 border-t border-dark/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] uppercase tracking-[0.3em] font-bold opacity-30 text-dark">
+                <p>© 2026 NORTE ACABAMENTOS. DESIGN BY STUDIO.</p>
+                <p>PEDRO LEOPOLDO • MG</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Header Scroll Effect
+        const header = document.getElementById('main-header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('glass', 'py-4');
+                header.classList.remove('py-6');
+            } else {
+                header.classList.remove('glass', 'py-4');
+                header.classList.add('py-6');
+            }
+        });
+
+        // Hero Entrance
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline();
+            
+            tl.to("#hero-label", { opacity: 1, y: 0, duration: 1, ease: "power4.out" })
+              .to("#hero-title", { opacity: 1, y: 0, duration: 1, ease: "power4.out" }, "-=0.6")
+              .to("#hero-sub", { opacity: 1, y: 0, duration: 1, ease: "power4.out" }, "-=0.6")
+              .to("#hero-cta", { opacity: 1, y: 0, duration: 1, ease: "power4.out" }, "-=0.6");
+        });
+
+        // Scroll Reveal
+        const reveals = document.querySelectorAll('.reveal');
+        reveals.forEach((el) => {
+            gsap.fromTo(el, 
+                { opacity: 0, y: 50 },
+                { 
+                    opacity: 1, 
+                    y: 0, 
+                    duration: 1.2, 
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: el,
+                        start: "top 85%",
+                        toggleActions: "play none none none"
+                    }
+                }
+            );
+        });
+
+        // Bento Hover Parallax
+        const bentoItems = document.querySelectorAll('.bento-item');
+        bentoItems.forEach(item => {
+            item.addEventListener('mousemove', (e) => {
+                const { left, top, width, height } = item.getBoundingClientRect();
+                const x = (e.clientX - left) / width - 0.5;
+                const y = (e.clientY - top) / height - 0.5;
+                
+                gsap.to(item.querySelector('img'), {
+                    x: x * 30,
+                    y: y * 30,
+                    duration: 0.8,
+                    ease: "power2.out"
+                });
+            });
+            
+            item.addEventListener('mouseleave', () => {
+                gsap.to(item.querySelector('img'), {
+                    x: 0,
+                    y: 0,
+                    duration: 0.8,
+                    ease: "power2.out"
+                });
+            });
+        });
+
+        // Mobile Menu
+        const menuBtn = document.getElementById('menu-toggle');
+        const closeBtn = document.getElementById('close-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('translate-x-full');
+        });
+
+        closeBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('translate-x-full');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('translate-x-full');
+            });
+        });
+    </script>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/5531997016161" target="_blank" class="fixed bottom-8 right-8 z-50 bg-[#25D366] w-16 h-16 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform duration-300 group">
+        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        <span class="absolute right-full mr-4 bg-white text-dark px-4 py-2 rounded-lg text-xs font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-xl pointer-events-none">
+            Dúvidas? Chame no WhatsApp!
+        </span>
+    </a>
+</body>
+</html>
